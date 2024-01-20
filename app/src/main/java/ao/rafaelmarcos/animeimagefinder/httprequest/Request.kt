@@ -1,7 +1,6 @@
 package ao.rafaelmarcos.animeimagefinder.httprequest
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.google.gson.Gson
 import java.io.DataOutputStream
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
@@ -12,7 +11,7 @@ class Request(val url: String ) {
     private val lineEnd = "\r\n"
     private val boundary = "Boundary-${Random().nextInt()}"
 
-    suspend fun sendPostRequest(imageBytes: ByteArray): String{
+    suspend fun sendPostRequest(imageBytes: ByteArray): RequestResponse{
         val connection = apiUrl.openConnection() as HttpsURLConnection
         connection.requestMethod = "POST"
         connection.addRequestProperty("Content-Type", "multipart/form-data; boundary=$boundary")
@@ -34,10 +33,8 @@ class Request(val url: String ) {
         val responseCode = connection.responseCode
 
         // getting result
-        val responseString = withContext(Dispatchers.IO){
-            connection.inputStream.bufferedReader().use{it.readText()}
-        }
+        val responseString = connection.inputStream.bufferedReader().use{it.readText()}
 
-        return responseString
+        return Gson().fromJson(responseString, RequestResponse::class.java)
     }
 }

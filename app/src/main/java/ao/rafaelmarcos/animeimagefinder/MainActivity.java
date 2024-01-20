@@ -16,11 +16,17 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import ao.rafaelmarcos.animeimagefinder.httprequest.RequestResponse;
+import ao.rafaelmarcos.animeimagefinder.httprequest.Result;
 
 public class MainActivity extends AppCompatActivity {
     private FloatingActionButton mFab;
     private ImageView mSelectedImage;
+    private TextView mAnimeName;
+    private TextView mEpisodeNumber;
     private Uri mImageUri;
 
     // Service
@@ -46,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
         mFab = findViewById(R.id.fab);
         mSelectedImage = findViewById(R.id.to_search_image);
+        mAnimeName = findViewById(R.id.anime_name);
+        mEpisodeNumber = findViewById(R.id.anime_episode);
 
         // search image button
         mFab.setOnClickListener(this::selectImage);
@@ -73,8 +81,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void searchImage(Uri uri){
         // If an image has been selected
-        if(mImageUri != null)
-            mService.search(mImageUri);
+        if(mImageUri != null){
+            Result result = mService.search(mImageUri).getResult()[0];
+            mAnimeName.setText("Anime: " + result.getFilename());
+        }
     }
 
     private ServiceConnection connection = new ServiceConnection() {

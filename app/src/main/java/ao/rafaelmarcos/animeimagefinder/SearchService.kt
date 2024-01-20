@@ -10,6 +10,7 @@ import android.util.Log
 import java.util.Random
 
 import ao.rafaelmarcos.animeimagefinder.httprequest.Request
+import ao.rafaelmarcos.animeimagefinder.httprequest.RequestResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -30,14 +31,14 @@ class SearchService : Service() {
 
     override fun onBind(intent: Intent): IBinder = binder
 
-    fun search(uri : Uri){
+    fun search(uri : Uri) : RequestResponse{
         val imageStream = contentResolver.openInputStream(uri)
         val imageBytes = imageStream?.readBytes() ?: ByteArray(0)
 
         val request = Request(mApiUrl)
-        runBlocking {
+        return runBlocking {
             withContext(Dispatchers.IO){
-                Log.d("RESPONSE", request.sendPostRequest(imageBytes))
+                request.sendPostRequest(imageBytes)
             }
         }
     }

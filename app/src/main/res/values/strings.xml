@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Anime Image Finder</string>
+    <string name="selected_image">Selected image</string>
+    <string name="search_fab">Search floating action button</string>
 </resources>
