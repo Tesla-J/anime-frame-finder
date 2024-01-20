@@ -40,4 +40,10 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    // Coroutines to make the HTTP requests asynchronous(In the background thread)
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1")
+
+    // Gson to convert raw JSON to pretty JSON
+    implementation ("com.google.code.gson:gson:2.8.6")
 }

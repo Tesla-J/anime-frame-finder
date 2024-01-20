@@ -72,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void searchImage(Uri uri){
-        // TODO serching on service
-        if(mIsBound)
-            Toast.makeText(this, "" + mService.getNumber(), Toast.LENGTH_LONG).show();
+        // If an image has been selected
+        if(mImageUri != null)
+            mService.search(mImageUri);
     }
 
     private ServiceConnection connection = new ServiceConnection() {
@@ -84,11 +84,8 @@ public class MainActivity extends AppCompatActivity {
             mService = binder.getService();
             mIsBound = true;
 
-            // If an image has been selected
-            if(mImageUri != null) {
-                searchImage(mImageUri);
-                mImageUri = null;
-            }
+            // search the image when connected to the service
+            searchImage(mImageUri);
         }
 
         @Override
