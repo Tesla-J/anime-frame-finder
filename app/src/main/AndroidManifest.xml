@@ -15,6 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AnimeImageFinder"
         tools:targetApi="31">
+        <service
+            android:name=".SearchService"
+            android:enabled="true"
+            android:exported="false"></service>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
